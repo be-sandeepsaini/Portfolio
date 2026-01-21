@@ -1,13 +1,24 @@
-// Mobile Menu Toggle
+// Mobile Menu Toggle (fixed)
 const mobileMenuButton = document.getElementById('mobile-menu-button');
 const mobileMenu = document.querySelector('.mobile-nav');
 
-if (mobileMenuButton) {
-    mobileMenuButton.addEventListener('click', () => {
-        const isHidden = mobileMenu.classList.toggle('hidden');
-        const icon = mobileMenuButton.querySelector('i');
-        icon.className = isHidden ? 'fas fa-bars' : 'fas fa-times';
+if (mobileMenuButton && mobileMenu) {
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+
+    const isOpen = !mobileMenu.classList.contains('hidden');
+    const icon = mobileMenuButton.querySelector('i');
+    if (icon) icon.className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+  });
+
+  // Close menu after clicking any mobile link
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      const icon = mobileMenuButton.querySelector('i');
+      if (icon) icon.className = 'fas fa-bars';
     });
+  });
 }
 
 const initBgAnimation = () => {
@@ -114,3 +125,13 @@ const typeEffect = () => {
 };
 
 document.addEventListener('DOMContentLoaded', typeEffect);
+
+document.querySelectorAll('#projects .project-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('#projects .project-card.is-flipped').forEach(open => {
+      if (open !== card) open.classList.remove('is-flipped');
+    });
+    card.classList.toggle('is-flipped');
+  });
+});
+
